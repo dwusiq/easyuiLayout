@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <!--对应DAO接口-->
+    <mapper namespace="com.wusiq.dao.UserMapper">
+
+    <cache eviction="LRU" type="com.wusiq.base.MybatisRedisCache"/>
+
+    <resultMap id="usersMap" type="com.wusiq.entity.Users" >
+        <id column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="userage" property="userage" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!--增-->
+    <insert id="insertUser" parameterType="com.wusiq.entity.Users">
+        INSERT INTO USERS(username,userage)VALUES (#{username},#{userage})
+    </insert>
+
+    <!--删-->
+    <delete id="deleteUser" parameterType="INTEGER">
+        DELETE FROM users WHERE id=#{id}
+    </delete>
+
+    <!--改-->
+    <update id="updateUser" parameterType="com.wusiq.entity.Users">
+        UPDATE users SET username=#{username},userage=#{userage} WHERE id=#{id}
+    </update>
+
+    <!--查-->
+    <select id="queryById" resultMap="usersMap" parameterType="INTEGER">
+        SELECT * FROM users where id=#{id}
+    </select>
+</mapper>

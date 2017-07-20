@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <!--对应DAO接口-->
+    <mapper namespace="com.wusiq.dao.CatalogTreeDao">
+
+    <cache eviction="LRU" type="com.wusiq.base.MybatisRedisCache"/>
+
+    <resultMap id="catalogMap" type="com.wusiq.entity.CatalogTreeEntity" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="pid" property="pid" jdbcType="INTEGER" />
+        <result column="text" property="text" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--字段-->
+    <sql id="CATALOG_COLUMN">
+        id,pid,text,state,url
+    </sql>
+
+    <!--查询-->
+    <select id="queryCatalogTreeList" resultMap="catalogMap">
+        SELECT
+        <include refid="CATALOG_COLUMN"/>
+        FROM t_catalog;
+    </select>
+
+</mapper>
